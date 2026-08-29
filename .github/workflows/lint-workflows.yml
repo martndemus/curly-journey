@@ -25,9 +25,10 @@ jobs:
         with:
           persist-credentials: false
       - name: Run actionlint
-        uses: reviewdog/action-actionlint@2ca4336c1821eaff87db1f72fd3923b3250e0427 # v1.69.0
+        uses: reviewdog/action-actionlint@437bbe918b0d29544cbf9e8b1d63fe6f4e7a881d # v1.69.0
         with:
           reporter: local
+          filter_mode: nofilter
           fail_level: error
 
   zizmor:
