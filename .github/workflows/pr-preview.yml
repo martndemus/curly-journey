@@ -17,9 +17,6 @@ concurrency:
 jobs:
   preview:
     if: github.event.pull_request.head.repo.full_name == github.repository
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -76,3 +73,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+
+      - name: Summarize preview URL
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          echo "Preview: ${PAGE_URL}preview/${PR_NUMBER}/" >>"$GITHUB_STEP_SUMMARY"
