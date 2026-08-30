@@ -1,3 +1,5 @@
 _site/
 node_modules/
 test-results.xml
+oxlint-results.json
+oxfmt-results.txt
