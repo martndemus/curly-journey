@@ -51,35 +51,7 @@ jobs:
         if: always()
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.run_id }}
           JOB_NAME: ${{ github.job }}
-        run: |
-          set -euo pipefail
-
-          tests=$(grep -oP '(?<=<!-- tests )\d+' test-results.xml)
-          pass=$(grep -oP '(?<=<!-- pass )\d+' test-results.xml)
-          fail=$(grep -oP '(?<=<!-- fail )\d+' test-results.xml)
-          skipped=$(grep -oP '(?<=<!-- skipped )\d+' test-results.xml)
-
-          # The job's own check run shares its ID with the job itself, so
-          # patching it (rather than creating a new check run) keeps the
-          # counts grouped under this workflow instead of an unrelated one.
-          check_run_id=$(curl -sS --fail-with-body \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" \
-            | jq -r --arg name "$JOB_NAME" '.jobs[] | select(.name == $name) | .id')
-
-          payload=$(jq -n \
-            --arg title "$pass passed, $fail failed, $skipped skipped" \
-            --arg summary "**$tests tests** — $pass passed, $fail failed, $skipped skipped." \
-            '{ output: { title: $title, summary: $summary } }')
-
-          curl -sS --fail-with-body -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/check-runs/$check_run_id" \
-            -d "$payload"
+        run: ./.github/scripts/report-test-results.sh
