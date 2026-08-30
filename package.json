@@ -12,8 +12,10 @@
     "serve": "pnpm dlx serve .",
     "build": "scripts/build-site.sh",
     "lint": "oxlint .",
+    "lint:ci": "oxlint -f json .",
     "format": "oxfmt --write .",
-    "format:check": "oxfmt --check ."
+    "format:check": "oxfmt --check .",
+    "format:ci": "oxfmt --list-different ."
   },
   "devDependencies": {
     "oxfmt": "^0.65.0",
