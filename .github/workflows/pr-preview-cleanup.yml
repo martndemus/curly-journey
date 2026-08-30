@@ -18,6 +18,11 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
@@ -25,13 +30,7 @@ jobs:
         id: find-artifact
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          artifact=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=github-pages&per_page=30" \
-            --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | last')
-          if [ -n "$artifact" ] && [ "$artifact" != "null" ]; then
-            echo "artifact_id=$(jq -r '.id' <<<"$artifact")" >>"$GITHUB_OUTPUT"
-            echo "run_id=$(jq -r '.workflow_run.id' <<<"$artifact")" >>"$GITHUB_OUTPUT"
-          fi
+        run: ./scripts/find-pages-artifact.sh
 
       - name: Download current Pages artifact
         if: steps.find-artifact.outputs.artifact_id != ''
