@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run oxlint
-        run: pnpm --silent run lint:ci | tee oxlint-results.json
+        run: pnpm --silent run lint:ci > oxlint-results.json
 
       - name: Report oxlint results
         if: always()
@@ -71,7 +71,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run oxfmt
-        run: pnpm --silent run format:ci | tee oxfmt-results.txt
+        run: pnpm --silent run format:ci > oxfmt-results.txt
 
       - name: Report oxfmt results
         if: always()
