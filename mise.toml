@@ -1,8 +1,0 @@
-# avoid backends that use api.github.com, these are blocked by the claude code sandbox
-[tools]
-"pipx:zizmor" = "1.29.0"
-"go:github.com/rhysd/actionlint/cmd/actionlint" = "1.7.12"
-
-[tasks.build]
-description = "Build the static site into _site/"
-run = "scripts/build-site.sh"

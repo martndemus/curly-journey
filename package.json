@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "pnpm dlx serve ."
+    "serve": "pnpm dlx serve .",
+    "build": "scripts/build-site.sh"
   },
   "keywords": [],
   "author": "",
