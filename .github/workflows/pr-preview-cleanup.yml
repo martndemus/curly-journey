@@ -30,7 +30,7 @@ jobs:
         id: find-artifact
         env:
           GH_TOKEN: ${{ github.token }}
-        run: ./scripts/find-pages-artifact.sh
+        run: ./.github/scripts/find-pages-artifact.sh
 
       - name: Download current Pages artifact
         if: steps.find-artifact.outputs.artifact_id != ''
