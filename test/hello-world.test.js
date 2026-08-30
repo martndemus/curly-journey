@@ -7,9 +7,7 @@ const { chromium } = require("playwright");
 // Environments that pre-install a browser (rather than the one Playwright
 // downloads on `playwright install`) expose it at this fixed path.
 const preinstalledChromium = "/opt/pw-browsers/chromium";
-const executablePath = fs.existsSync(preinstalledChromium)
-  ? preinstalledChromium
-  : undefined;
+const executablePath = fs.existsSync(preinstalledChromium) ? preinstalledChromium : undefined;
 
 test("renders Hello, World!", async () => {
   const browser = await chromium.launch({ executablePath });
