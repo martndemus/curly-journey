@@ -3,8 +3,13 @@ set -euo pipefail
 
 json_path="$1"
 
-errors=$(jq '[.diagnostics[] | select(.severity == "error")] | length' "$json_path")
-warnings=$(jq '[.diagnostics[] | select(.severity == "warning")] | length' "$json_path")
+IFS=$'\t' read -r errors warnings < <(jq -r '
+  [.diagnostics[].severity] as $severities
+  | ($severities | map(select(. == "error")) | length) as $errors
+  | ($severities | map(select(. == "warning")) | length) as $warnings
+  | [$errors, $warnings]
+  | @tsv
+' "$json_path")
 
 annotations=$(node "$(dirname "$0")/build-oxlint-annotations.mjs" "$json_path")
 
