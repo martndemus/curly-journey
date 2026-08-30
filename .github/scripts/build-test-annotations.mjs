@@ -20,7 +20,8 @@ function decodeXmlEntities(str) {
 const annotations = [];
 // A passing testcase is self-closing (<testcase .../>) and has no body to
 // search for a <failure>; only the second alternative captures one.
-const testcaseRe = /<testcase\b[^>]*\/>|<testcase\b[^>]*\bname="([^"]*)"[^>]*>([\s\S]*?)<\/testcase>/g;
+const testcaseRe =
+  /<testcase\b[^>]*\/>|<testcase\b[^>]*\bname="([^"]*)"[^>]*>([\s\S]*?)<\/testcase>/g;
 
 for (const [, name, body] of xml.matchAll(testcaseRe)) {
   if (body === undefined) continue; // self-closing: passed, nothing to report
