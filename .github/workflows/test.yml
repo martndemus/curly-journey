@@ -8,12 +8,14 @@ on:
 
 permissions:
   contents: read
-  actions: read
-  checks: write
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      checks: write
     steps:
       - &checkout
         name: Checkout
@@ -50,6 +52,10 @@ jobs:
 
   format:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      checks: write
     steps:
       - *checkout
       - *setup-pnpm
@@ -71,6 +77,10 @@ jobs:
   test:
     needs: [lint, format]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      checks: write
     steps:
       - *checkout
       - *setup-pnpm
