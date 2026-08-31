@@ -7,8 +7,8 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "node scripts/run-with-server.js",
-    "test:ci": "node scripts/run-with-server.js --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml",
+    "test": "node --test --test-global-setup=./scripts/global-setup.js",
+    "test:ci": "node --test --test-global-setup=./scripts/global-setup.js --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml",
     "serve": "pnpm dlx serve .",
     "build": "scripts/build-site.sh",
     "lint": "oxlint .",
