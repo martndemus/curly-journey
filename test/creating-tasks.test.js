@@ -17,6 +17,10 @@ test("renders an Add task button", async () => {
     await page.goto(baseUrl);
     const button = page.getByRole("button", { name: "Add task" });
     await assert.doesNotReject(button.waitFor({ state: "attached", timeout: 1000 }));
+
+    await button.click();
+    await page.waitForURL(`${baseUrl}/tasks/new/`);
+    assert.equal(new URL(page.url()).pathname, "/tasks/new/");
   } finally {
     await browser.close();
   }
