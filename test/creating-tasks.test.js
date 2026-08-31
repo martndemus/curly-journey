@@ -10,7 +10,7 @@ const executablePath = fs.existsSync(preinstalledChromium) ? preinstalledChromiu
 
 const baseUrl = process.env.TEST_BASE_URL || "http://127.0.0.1:3131";
 
-test("renders an Add task link", async () => {
+test("Creating a Task", async () => {
   const browser = await chromium.launch({ executablePath });
   try {
     const page = await browser.newPage();
